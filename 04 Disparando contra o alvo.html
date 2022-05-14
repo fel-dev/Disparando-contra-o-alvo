@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="alvo-logo.png"> 
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <title>O Alvo Aleatório</title>
+</head>
+<body>
+
+
+<canvas width="600" height="400"></canvas>
+
+<hr>
+
+<iframe src="https://open.spotify.com/embed/playlist/59oveE8IC8FkCmk9MOeiZB?utm_source=generator" width="80%" height="80" frameBorder="0.5"autoplay="1" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
+
+<footer>
+    
+    <p>Desenvolvido por <br>2022 &copy; <a href="https://api.whatsapp.com/send?phone=5521965550012&text="  target='_blank'>Felipe C Carneiro</a> </p>
+
+    <div class="social">
+        <a href="https://github.com/FelipeeCarneiro" target="_blank"><img src="github.png" alt="logo do Github"></a><a href="https://www.linkedin.com/in/correaflp/" target="_blank"><img src="linkedin.png" alt="Logo do Linkedin"></a>
+    </div>
+    <p>ONE - Oracle Next Education - ALURA</p>        
+    <h6 class="versao">Versão 1.0</h6>
+
+</footer>
+
+<script>
+
+        function desenhaCirculo(x, y, raio, cor) {
+
+            pincel.fillStyle = cor;
+            pincel.beginPath();
+            pincel.arc(x,  y,  raio,  0,  2 * Math.PI);
+            pincel.fill();
+
+        }
+
+        function alvo(x, y) {
+
+            desenhaCirculo(x,  y,  40, 'red')
+            desenhaCirculo(x ,y,  25, 'white')
+            desenhaCirculo(x, y, raio, 'red')
+
+        }
+
+        function limpaTela() {
+
+            pincel.clearRect(0, 0, 600, 400);
+
+        }
+
+        function randomizador(maximo) {
+
+            // return Math.floor(Math.random() * maximo)
+            return Math.ceil(Math.random() * maximo)
+
+        }
+
+        function atualizaTela() {
+            
+            limpaTela()       
+            desenhaTexto('Balas', balas, 0, 60)
+            desenhaTexto('Score', score, 0, 20)            
+            desenhaTexto('MaxS. ', scoreMax,  0,  40)
+            xRandom = randomizador(600)
+            yRandom = randomizador(400)
+            alvo(xRandom, yRandom)
+            // console.log(xRandom, yRandom)
+     
+
+        }
+        
+        function shoot (evento) {
+
+            var x = evento.pageX - tela.offsetLeft;
+            var y = evento.pageY - tela.offsetTop;
+
+            if (x < xRandom + raio &&
+                x > xRandom - raio &&
+                y > yRandom - raio &&
+                y < yRandom + raio) {
+
+                // alert("Acertou!")
+                score += 1
+            }          
+
+            balasContagem()
+
+        }
+
+
+        function desenhaTexto(texto, valor, x, y) {
+            var tela = document.querySelector('canvas');
+            var pincel = tela.getContext('2d');
+    
+            pincel.font='18px impact';
+            pincel.fillStyle='black';
+            pincel.fillText(texto, x, y);            
+            pincel.fillStyle='red';
+            pincel.fillText(valor, x+45, y) 
+        }
+
+        function balasContagem(evento) {
+
+            if (tela.onclick) {
+
+                balas -= 1
+
+            }
+
+            if (balas <= 0) {
+
+                contaPontuação()
+                
+            }
+
+        }
+
+        function contaPontuação() {
+
+            alert('Fim de jogo!!!'  + ' Score: ' + score)
+
+            if (scoreMax < score) {
+
+                scoreMax = score
+
+                alert('NOVO RECORD!')
+
+                if (scoreMax == 10) {
+
+                    alert("Você atingiu a pontuação MÁXIMA DO JOGO! PARABÉNS!!!")
+
+                }
+            }
+
+            balas = 10
+            score = 0
+        }
+
+        var tela = document.querySelector('canvas');
+        var pincel = tela.getContext('2d');
+
+        // -- 
+        var balas = 10
+        var score = 0
+        var scoreMax = 0
+        // ---       
+
+        var raio = 10
+        var xRandom
+        var yRandom
+
+        pincel.fillStyle = 'lightgray';
+        pincel.fillRect(0, 0, 600, 400);    
+
+        tela.onclick = shoot
+        
+        setInterval(atualizaTela, 800)
+
+    </script>
+</body>
+</html>

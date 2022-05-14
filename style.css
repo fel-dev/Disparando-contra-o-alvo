@@ -1,0 +1,12 @@
+body {
+	border: 1px solid black;
+	margin: 2vh;
+	text-align: center;
+	font-family: !important "impact";
+}
+
+canvas {
+	margin-top: 25px;
+	border: 2px dotted red;
+	box-shadow: 1px 2px 100px 25px red;
+}
